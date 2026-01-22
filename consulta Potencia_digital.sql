@@ -9,32 +9,37 @@ CREATE TABLE Charlas (
     Informacion_adicional VARCHAR(MAX) NULL /*Informacion_adicional que se quiera añadir (no obligatorio por eso es NULL)*/
 );
 
+/* TABLA FECHAS */
+CREATE TABLE Fechas (
+    Fecha DATE PRIMARY KEY /* Tiene que ser primary key ya que más abajo necesitaremos hacer unn foreing key ha este campo*/
+);
+
 
 /* TABLA FECHAS_CHARLAS */
 CREATE TABLE Fechas_Charlas (
     Id_charla SMALLINT NOT NULL,
-    Fecha DATE NOT NULL,  /*Fecha en la que se realiza la charla*/
+    Fecha DATE NOT NULL, /*Fecha en la que se realiza la charla*/
     Hora TIME NOT NULL,
 
-    PRIMARY KEY (Id_charla, Fecha, Hora),
+    PRIMARY KEY (Id_charla, Fecha, Hora), /*Necesitamos que sea clave compuesta*/
 
-    FOREIGN KEY (Id_charla) REFERENCES Charlas(Id_charla),
-    FOREIGN KEY (Fecha) REFERENCES Fechas(Fecha)
+    FOREIGN KEY (Id_charla) REFERENCES Charlas(Id_charla), /*Para que a la hora de añadir charlas, solo se puedan añadir las que existan en la tabla Charla(idCharla)*/
+    FOREIGN KEY (Fecha) REFERENCES Fechas(Fecha)/*Para que a la hora de añadir fechas, solo se puedan añadir las que existan en la tabla Fecha*/
 );
 
 
 /* TABLA USUARIO */
 CREATE TABLE Usuario (
-    Id_usuario INT IDENTITY(1,1) PRIMARY KEY,
-    Nombre VARCHAR(100) NOT NULL,
-    N_Telefono CHAR(13) NOT NULL UNIQUE
+    Id_usuario INT IDENTITY(1,1) PRIMARY KEY,/*Identificador único del usuario. Unos 30.000 usuarios máximo*/
+    Nombre VARCHAR(100) NOT NULL, /*Nombre del usuario*/
+    N_Telefono CHAR(13) NOT NULL UNIQUE /* Número de teléfono del usuario. Con prefijo (3+9 o 10 digitos)*/
 );
 
 /* TABLA PONENTE  */
 CREATE TABLE Ponente (
-    Id_ponente TINYINT IDENTITY(1,1) PRIMARY KEY,
-    Nombre VARCHAR(50) NOT NULL,
-    Apellido VARCHAR(50) NOT NULL
+    Id_ponente TINYINT IDENTITY(1,1) PRIMARY KEY, /*Identificador del ponente*/
+    Nombre VARCHAR(50) NOT NULL, /*Nombre del ponente*/
+    Apellido VARCHAR(50) NOT NULL /*Apellidos del ponente*/
 );
 
 
@@ -75,4 +80,5 @@ CREATE TABLE Coste_Ponente (
 
     CHECK (Costo_charla > 0)
 );
+
 
