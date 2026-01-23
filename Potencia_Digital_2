@@ -1,0 +1,93 @@
+/* CREAR BASE DE DATOS*/
+CREATE DATABASE Potencia_Digital_2;
+go
+USE Potencia_Digital_2;
+go
+
+/* TABLA CHARLAS */
+CREATE TABLE Charlas (
+  Id_charla SMALLINT IDENTITY(1,1) PRIMARY KEY, /*Identificador único de la charla*/
+  Nombre_Eventos VARCHAR(255) NOT NULL, /*Nombre del evento o charla*/
+  Informacion_adicional VARCHAR(MAX) NULL /*Informacion_adicional que se quiera añadir (no obligatorio por eso es NULL)*/
+);
+
+/* TABLA FECHAS */
+CREATE TABLE Fechas (
+  Fecha DATE PRIMARY KEY /* Tiene que ser primary key ya que más abajo necesitaremos hacer unn foreing key ha este campo*/
+);
+
+
+/* TABLA FECHAS_CHARLAS */
+CREATE TABLE Fechas_Charlas (
+  Id_charla SMALLINT NOT NULL,
+  Fecha DATE NOT NULL, /*Fecha en la que se realiza la charla*/
+  Hora TIME NOT NULL,
+
+  PRIMARY KEY (Id_charla, Fecha, Hora), /*Necesitamos que sea clave compuesta*/
+
+  FOREIGN KEY (Id_charla) REFERENCES Charlas(Id_charla), /*Para que a la hora de añadir charlas, solo se puedan añadir las que existan en la tabla Charla(idCharla)*/
+  FOREIGN KEY (Fecha) REFERENCES Fechas(Fecha)/*Para que a la hora de añadir fechas, solo se puedan añadir las que existan en la tabla Fecha*/
+);
+
+
+/* TABLA USUARIO */
+CREATE TABLE Usuario (
+  Id_usuario INT IDENTITY(1,1) PRIMARY KEY,/*Identificador único del usuario. Unos 30.000 usuarios máximo*/
+  Nombre VARCHAR(100) NOT NULL, /*Nombre del usuario*/
+  N_Telefono CHAR(13) NOT NULL UNIQUE /* Número de teléfono del usuario. Con prefijo (3+9 o 10 digitos)*/
+);
+
+/* TABLA PONENTE  */
+CREATE TABLE Ponente (
+  Id_ponente TINYINT IDENTITY(1,1) PRIMARY KEY, /*Identificador del ponente*/
+  Nombre VARCHAR(50) NOT NULL, /*Nombre del ponente*/
+  Apellido VARCHAR(50) NOT NULL /*Apellidos del ponente*/
+);
+
+
+/* TABLA CHARLA_PONENTE */
+CREATE TABLE Charla_Ponente (
+  Id_charla SMALLINT NOT NULL,
+  Id_ponente TINYINT NOT NULL,
+
+  PRIMARY KEY (Id_charla, Id_ponente),
+
+  FOREIGN KEY (Id_charla) REFERENCES Charlas(Id_charla),
+  FOREIGN KEY (Id_ponente) REFERENCES Ponente(Id_ponente)
+);
+
+
+/* TABLA VALORACION_USUARIO */
+CREATE TABLE Valoracion_Usuario (
+  Id_usuario INT NOT NULL,
+  Id_charla SMALLINT NOT NULL,
+  Valoracion DECIMAL(4,2) NOT NULL,
+
+  PRIMARY KEY (Id_usuario, Id_charla),
+
+  FOREIGN KEY (Id_usuario) REFERENCES Usuario(Id_usuario),
+  FOREIGN KEY (Id_charla) REFERENCES Charlas(Id_charla)
+);
+
+/* TABLA COSTE_PONENTE */
+CREATE TABLE Coste_Ponente (
+  Id_ponente TINYINT NOT NULL,
+  Id_charla SMALLINT NOT NULL,
+  Costo_charla SMALLMONEY NULL,
+
+  PRIMARY KEY (Id_ponente, Id_charla),
+
+  FOREIGN KEY (Id_ponente) REFERENCES Ponente(Id_ponente),
+  FOREIGN KEY (Id_charla) REFERENCES Charlas(Id_charla),
+
+  CHECK (Costo_charla > 0)
+);
+
+/*TABLA COLEGIOS*/
+CREATE TABLE colegios (
+  idColegio SMALLINT NOT NULL PRIMARY KEY, /*Pongo smallint pensando en que esta base de datos se va a reutilizar en un futuro y pasarán de los 255 institutos inscritos*/
+  nombre VARCHAR (40) NOT NULL, /*Nombre del instituto*/
+  persona_contacto CHAR (15) NOT NULL, /*Nombre del contacto*/
+  tfno_contacto CHAR (13) NOT NULL /*N_telefono de contacto con el instituto*/
+),
+
