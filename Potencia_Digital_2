@@ -106,28 +106,25 @@ FOREIGN KEY (idCharla) REFERENCES Charlas( Id_charla ) ON DELETE NO ACTION,
 FOREIGN KEY (fecha) REFERENCES fechas(fecha)
 );
 
-/*Insertar filas en tabla colegio*/
-INSERT INTO colegios
-VALUES (0, 'plazas disponibles', 'no procede', 'no procede');
 
-INSERT INTO colegios
-VALUES (1, 'IES Cervantes', 'Juan Pérez', '600123456');
+/*INSERTAR FILAS*/
 
-INSERT INTO colegios
-VALUES (2, 'Colegio San José', 'María López', '611987654');
+/* COLEGIOS */
+INSERT INTO colegios VALUES (0, 'plazas disponibles', 'no procede', 'no procede');
+INSERT INTO colegios VALUES (1, 'IES Cervantes', 'Juan Pérez', '600123456');
+INSERT INTO colegios VALUES (2, 'Colegio San José', 'María López', '611987654');
 
-
-
-/*Insertar fila en tabla fechas*/
+/* FECHAS */
 INSERT INTO Fechas (Fecha)
 VALUES ('2026-03-10'), ('2026-04-05');
 
-/*Insertar fila en tabla charlas*/
+/* CHARLAS */
 INSERT INTO Charlas (Nombre_Eventos, Informacion_adicional)
-VALUES ('Ciberseguridad', 'Charla sobre seguridad digital'),
-       ('IA en educación', 'Uso de IA en aulas');
+VALUES 
+  ('Ciberseguridad', 'Charla sobre seguridad digital'),
+  ('IA en educación', 'Uso de IA en aulas');
 
-/*Insertar fila en tabla charlas*/
+/* COLEGIOS_ACTIVIDADES */
 INSERT INTO colegios_actividades (idColegio, idCharla, fecha, numero_asistentes)
 VALUES (1, 1, '2026-03-10', 45);
 
@@ -136,8 +133,3 @@ VALUES (2, 2, '2026-04-05', 30);
 
 INSERT INTO colegios_actividades (idColegio, idCharla, fecha, numero_asistentes)
 VALUES (0, 1, '2026-03-10', 20);
-
-
-
-
-
