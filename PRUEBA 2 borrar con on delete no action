@@ -1,0 +1,1 @@
+DELETE FROM Charlas WHERE Id_charla = 1;
