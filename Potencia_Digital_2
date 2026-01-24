@@ -85,9 +85,59 @@ CREATE TABLE Coste_Ponente (
 
 /*TABLA COLEGIOS*/
 CREATE TABLE colegios (
-  idColegio SMALLINT NOT NULL PRIMARY KEY, /*Pongo smallint pensando en que esta base de datos se va a reutilizar en un futuro y pasarán de los 255 institutos inscritos*/
+  idColegio INT NOT NULL PRIMARY KEY, /*Pongo smallint pensando en que esta base de datos se va a reutilizar en un futuro y pasarán de los 255 institutos inscritos*/
   nombre VARCHAR (40) NOT NULL, /*Nombre del instituto*/
   persona_contacto CHAR (15) NOT NULL, /*Nombre del contacto*/
-  tfno_contacto CHAR (13) NOT NULL /*N_telefono de contacto con el instituto*/
+  tfno_contacto CHAR (13) NULL /*N_telefono de contacto con el instituto*/
+
 ),
+
+/*TABLA COLEGIOS_ACTIVIDADES*/
+CREATE TABLE colegios_actividades(
+
+  idReserva INT IDENTITY(1,1) PRIMARY KEY,
+  idColegio INT NOT NULL DEFAULT 0,
+  idCharla SMALLINT NULL,
+  fecha DATE NOT NULL,
+  numero_asistentes SMALLINT NOT NULL,
+
+FOREIGN KEY (idColegio) REFERENCES colegios( idColegio ) ON DELETE CASCADE,
+FOREIGN KEY (idCharla) REFERENCES Charlas( Id_charla ) ON DELETE NO ACTION,
+FOREIGN KEY (fecha) REFERENCES fechas(fecha)
+);
+
+/*Insertar filas en tabla colegio*/
+INSERT INTO colegios
+VALUES (0, 'plazas disponibles', 'no procede', 'no procede');
+
+INSERT INTO colegios
+VALUES (1, 'IES Cervantes', 'Juan Pérez', '600123456');
+
+INSERT INTO colegios
+VALUES (2, 'Colegio San José', 'María López', '611987654');
+
+
+
+/*Insertar fila en tabla fechas*/
+INSERT INTO Fechas (Fecha)
+VALUES ('2026-03-10'), ('2026-04-05');
+
+/*Insertar fila en tabla charlas*/
+INSERT INTO Charlas (Nombre_Eventos, Informacion_adicional)
+VALUES ('Ciberseguridad', 'Charla sobre seguridad digital'),
+       ('IA en educación', 'Uso de IA en aulas');
+
+/*Insertar fila en tabla charlas*/
+INSERT INTO colegios_actividades (idColegio, idCharla, fecha, numero_asistentes)
+VALUES (1, 1, '2026-03-10', 45);
+
+INSERT INTO colegios_actividades (idColegio, idCharla, fecha, numero_asistentes)
+VALUES (2, 2, '2026-04-05', 30);
+
+INSERT INTO colegios_actividades (idColegio, idCharla, fecha, numero_asistentes)
+VALUES (0, 1, '2026-03-10', 20);
+
+
+
+
 
