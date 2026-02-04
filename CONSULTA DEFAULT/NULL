@@ -1,0 +1,57 @@
+
+/* ---------- CHARLAS ---------- */
+/* NULL permitido en Informacion_adicional */
+INSERT INTO Charlas (Nombre_Eventos, Informacion_adicional)
+VALUES ('Blockchain aplicada', NULL);
+
+
+/* ---------- USUARIO ---------- */
+/* Omitimos IDENTITY */
+INSERT INTO Usuario (Nombre, N_Telefono)
+VALUES ('Ana Martínez', '633111222');
+
+
+/* ---------- FECHAS ---------- */
+/* Insert simple */
+INSERT INTO Fechas (Fecha)
+VALUES ('2026-11-11');
+
+
+/* ---------- PONENTE ---------- */
+/* Omitimos IDENTITY */
+INSERT INTO Ponente (Nombre, Apellido)
+VALUES ('Carlos', 'Ruiz');
+
+
+/* ---------- CHARLA_PONENTE ---------- */
+/* Clave compuesta, ambas FK existen */
+INSERT INTO Charla_Ponente
+VALUES (1, 1);
+
+
+/* ---------- COSTE_PONENTE ---------- */
+/* DEFAULT = NULL permitido */
+INSERT INTO Coste_Ponente
+VALUES (1, 1, DEFAULT);
+
+
+/* ---------- VALORACION_USUARIO ---------- */
+/* Insert completo */
+INSERT INTO Valoracion_Usuario
+VALUES (1, 1, 9.25);
+
+
+/* ---------- COLEGIOS_ACTIVIDADES ---------- */
+/* Omitimos idCharla → queda NULL */
+INSERT INTO colegios_actividades (idColegio, fecha, numero_asistentes)
+VALUES (1, '2026-05-05', 20);
+
+
+/* Omitimos idColegio → usa DEFAULT = 0 */
+INSERT INTO colegios_actividades (idCharla, fecha, numero_asistentes)
+VALUES (1, '2026-06-06', 15);
+
+
+/* Insert completo usando DEFAULT explícito */
+INSERT INTO colegios_actividades
+VALUES (DEFAULT, 2, NULL, '2026-07-07', 10);
